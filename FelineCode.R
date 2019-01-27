@@ -36,7 +36,15 @@ x[c(FALSE, FALSE, TRUE, FALSE, TRUE)]
 names(gapminder)
 
 library("ggplot2")
-ggplot(data = gapminder, aes(x = year, y = lifeExp, by=country,)) + 
+ggplot(data = gapminder, aes(x = year, y = lifeExp, by=country)) + 
   geom_line(aes(color=continent)) + geom_point()
 
+ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point(alpha = .5, size = 3, shape = 17) + scale_x_log10() + 
+  geom_smooth(method = "lm")
 
+
+starts.with <- substr(gapminder$country, start = 1, stop = 1)
+az.countries <- gapminder[starts.with %in% c("A", "Z"), ]
+ggplot(data = az.countries, aes(x = year, y = lifeExp, color=continent)) +
+  geom_line() + facet_wrap( ~ country)
